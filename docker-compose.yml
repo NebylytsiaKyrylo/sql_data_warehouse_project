@@ -1,0 +1,31 @@
+# docker-compose.yml (développement)
+services:
+  postgresql_dwh:
+    image: postgres:17
+    container_name: postgresql_dwh
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      # Bind mounts pour développement
+      - ./scripts/init:/docker-entrypoint-initdb.d
+      - ./scripts:/workspace/scripts
+      - ./datasets:/workspace/datasets
+      - ./tests:/workspace/tests
+      # Volume nommé pour les données persistent
+      - postgresql_data:/var/lib/postgresql/data
+    restart: no
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgresql_data:
+    name: postgresql_data
