@@ -1,33 +1,24 @@
 /*
 =============================================================
-Create Database and Schemas (PostgreSQL)
+Initialize Database Schema and Permissions (PostgreSQL)
 =============================================================
 Script Purpose:
-    This script creates a new database named 'data_warehouse' after checking if it already exists.
-    If the database exists, it is dropped and recreated. Additionally, the script sets up three schemas
-    within the database: 'bronze', 'silver', and 'gold'.
+    This script creates the three schemas (bronze, silver, gold)
+    within the existing 'data_warehouse' database.
+    PostgreSQL automatically creates the database based on 
+    the POSTGRES_DB environment variable in docker-compose.yml
 
 WARNING:
-    Running this script will drop the entire 'data_warehouse' database if it exists.
-    All data in the database will be permanently deleted. Proceed with caution
-    and ensure you have proper backups before running this script.
+    This script assumes the 'data_warehouse' database already exists.
+    It will be created automatically by Docker during initialization.
 */
 
--- Drop the 'data_warehouse' database if it exists
-DROP DATABASE IF EXISTS data_warehouse;
+-- Create Schemas (database is already created by PostgreSQL)
+CREATE SCHEMA IF NOT EXISTS bronze;
+CREATE SCHEMA IF NOT EXISTS silver;
+CREATE SCHEMA IF NOT EXISTS gold;
 
--- Create the 'data_warehouse' database
-CREATE DATABASE data_warehouse;
-
--- Connect to the new database
-\c data_warehouse
-
--- Create Schemas
-CREATE SCHEMA bronze;
-CREATE SCHEMA silver;
-CREATE SCHEMA gold;
-
--- Grant permissions (optional)
+-- Grant permissions to public role
 GRANT USAGE ON SCHEMA bronze TO public;
 GRANT USAGE ON SCHEMA silver TO public;
 GRANT USAGE ON SCHEMA gold TO public;
