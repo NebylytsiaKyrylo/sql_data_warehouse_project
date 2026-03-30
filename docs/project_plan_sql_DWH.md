@@ -26,8 +26,11 @@
 - [ ] Commit Code in Git Repository
 
 ## 5. Build Silver Layer (Cleaned & Standardized)
-- [ ] Analyzing: Explore and Understand Raw Data
+- [ ] Analyzing: Explore and Understand Raw Data, create data integration diagram
 - [ ] Coding: Data Cleansing (Deduplication, Formatting, Null Handling)
+  - [ ] Check for Nulls and Ducplicates in Primary Key (group + having > 1 and is NULL) / Expectation: no result
+  - [ ] Check for unwanted spaces (col != trim(col)) / Expectation: no result
+  - [ ] Data Standartization & Consistency (distinct)
 - [ ] Quality: Validating Data Correctness and Referential Integrity
 - [ ] Document: Extend Data Flow and Transformation Logic
 - [ ] Commit Code in Git Repository
