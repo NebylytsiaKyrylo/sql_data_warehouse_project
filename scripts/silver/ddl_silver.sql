@@ -27,3 +27,19 @@ CREATE TABLE silver.crm_cust_info
     -- Technical columns
     dwh_create_date      TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
+
+DROP TABLE IF EXISTS silver.crm_prd_info;
+CREATE TABLE silver.crm_prd_info
+(
+    prd_id        INT,
+    prd_cat_id    TEXT,
+    prd_key       TEXT,
+    prd_nm        TEXT,
+    prd_cost      NUMERIC,
+    prd_line      TEXT,
+    prd_start_dt  DATE,
+    prd_end_dt    DATE,
+
+    -- Technical columns
+    dwh_create_date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
