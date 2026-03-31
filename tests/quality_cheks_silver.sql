@@ -124,4 +124,78 @@ FROM silver.crm_prd_info;
 SELECT
     *
 FROM silver.crm_prd_info
-WHERE prd_start_dt > prd_end_dt;
+WHERE
+    prd_start_dt > prd_end_dt;
+
+-- ====================================================================
+-- Checking 'silver.crm_sales_details'
+-- ====================================================================
+
+SELECT
+    *
+FROM silver.crm_sales_details;
+
+-- Check for NULLs or Duplicates in Primary Key
+-- Expectation: No Results
+SELECT
+    *
+FROM silver.crm_sales_details
+WHERE
+    sls_ord_num IS NULL;
+
+SELECT
+    *
+FROM silver.crm_sales_details
+WHERE
+    sls_prd_key IS NULL;
+
+SELECT
+    *
+FROM silver.crm_sales_details
+WHERE
+    sls_cust_id IS NULL;
+
+-- Check for Invalid Dates
+-- Expectation: No Invalid Dates
+SELECT
+    *
+FROM silver.crm_sales_details
+WHERE
+    sls_order_dt IS NULL;
+
+SELECT
+    *
+FROM silver.crm_sales_details
+WHERE
+    sls_ship_dt IS NULL;
+
+SELECT
+    *
+FROM silver.crm_sales_details
+WHERE
+    sls_due_dt IS NULL;
+
+-- Check for Invalid Date Orders (Order Date > Shipping/Due Dates)
+-- Expectation: No Results
+SELECT
+    *
+FROM silver.crm_sales_details
+WHERE
+     sls_order_dt > sls_ship_dt
+  OR sls_order_dt > sls_due_dt;
+
+-- Check Data Consistency: Sales = Quantity * Price
+-- Expectation: No Results
+SELECT
+    sls_sales,
+    sls_quantity,
+    sls_price
+FROM silver.crm_sales_details
+WHERE sls_sales is NULL
+or sls_quantity is NULL
+or sls_price is NULL
+or sls_sales <= 0
+or sls_quantity <= 0
+or sls_price <=0
+or sls_sales != sls_quantity * sls_price
+or sls_price != sls_sales / sls_quantity;
