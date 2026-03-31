@@ -57,3 +57,17 @@ CREATE TABLE silver.crm_sales_details (
     -- Technical columns
     dwh_create_date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
+
+-- =============================================================================
+-- ERP Source Tables
+-- =============================================================================
+
+DROP TABLE IF EXISTS silver.erp_cust_az12;
+CREATE TABLE silver.erp_cust_az12 (
+    cid             TEXT,
+    bdate           DATE,
+    gen             TEXT,
+
+    -- Technical columns
+    dwh_create_date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
