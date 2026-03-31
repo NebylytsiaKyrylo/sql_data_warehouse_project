@@ -228,3 +228,21 @@ SELECT
         ELSE cntry
     END AS cntry
 FROM erp_loc_a101_values;
+
+
+-- Truncating Table: silver.erp_px_cat_g1v2
+TRUNCATE TABLE silver.erp_px_cat_g1v2;
+
+-- Inserting Data Into: erp_px_cat_g1v2;
+INSERT INTO silver.erp_px_cat_g1v2 (
+    id,
+    cat,
+    subcat,
+    maintenance
+)
+SELECT
+    trim(id) as id,
+    trim(cat) as cat,
+    trim(subcat) as subcat,
+    trim(maintenance) as maintenance
+FROM bronze.erp_px_cat_g1v2;
