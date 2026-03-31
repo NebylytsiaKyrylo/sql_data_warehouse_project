@@ -224,8 +224,10 @@ SELECT
     cid,
     COUNT(*)
 FROM silver.erp_cust_az12
-GROUP BY cid
-HAVING COUNT(*) > 1;
+GROUP BY
+    cid
+HAVING
+    COUNT(*) > 1;
 
 -- Identify prefix of CID to check for consistency
 SELECT DISTINCT
@@ -267,27 +269,69 @@ LIMIT 10;
 SELECT
     cid
 FROM silver.erp_loc_a101
-WHERE cid is NULL;
+WHERE
+    cid IS NULL;
 
 SELECT
     cid,
-    count(*) as cnt_doubles
+    COUNT(*) AS cnt_doubles
 FROM silver.erp_loc_a101
-GROUP BY cid
-HAVING count(*) > 1
-ORDER BY cnt_doubles;
+GROUP BY
+    cid
+HAVING
+    COUNT(*) > 1
+ORDER BY
+    cnt_doubles;
 
 -- Identify prefix of CID to check for consistency
 SELECT
-    substring(cid from '^[a-zA-Z-]+') as prefix,
-    count(*) as cnt,
-    min(cid) as exemple_cid
+    SUBSTRING(cid FROM '^[a-zA-Z-]+') AS prefix,
+    COUNT(*) AS cnt,
+    MIN(cid) AS exemple_cid
 FROM silver.erp_loc_a101
-GROUP BY 1
-ORDER BY 2;
+GROUP BY
+    1
+ORDER BY
+    2;
 
 -- Data Standardization & Consistency
 SELECT DISTINCT
     cntry
 FROM silver.erp_loc_a101;
+
+-- ====================================================================
+-- Checking 'silver.erp_px_cat_g1v2'
+-- ====================================================================
+
+SELECT
+    *
+FROM silver.erp_px_cat_g1v2;
+
+-- Check for NULLs or Duplicates in Primary Key
+-- Expectation: No Results
+SELECT
+    id,
+    COUNT(*) AS cnt_doubles
+FROM silver.erp_px_cat_g1v2
+GROUP BY
+    id
+HAVING
+     COUNT(*) > 1
+  OR id IS NULL
+ORDER BY
+    cnt_doubles;
+
+-- Data Standardization & Consistency
+SELECT DISTINCT
+    cat
+FROM silver.erp_px_cat_g1v2;
+
+SELECT DISTINCT
+    subcat
+FROM silver.erp_px_cat_g1v2;
+
+SELECT DISTINCT
+    maintenance
+FROM silver.erp_px_cat_g1v2;
+
 
