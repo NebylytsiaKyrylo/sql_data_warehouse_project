@@ -71,3 +71,12 @@ CREATE TABLE silver.erp_cust_az12 (
     -- Technical columns
     dwh_create_date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
+
+DROP TABLE IF EXISTS silver.erp_loc_a101;
+CREATE TABLE silver.erp_loc_a101 (
+    cid             TEXT,
+    cntry           TEXT,
+
+    -- Technical columns
+    dwh_create_date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
