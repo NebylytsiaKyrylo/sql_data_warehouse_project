@@ -252,3 +252,42 @@ SELECT DISTINCT
     gen
 FROM silver.erp_cust_az12;
 
+-- ====================================================================
+-- Checking 'silver.erp_loc_a101'
+-- ====================================================================
+
+SELECT
+    *
+FROM silver.erp_loc_a101
+LIMIT 10;
+
+-- Check for NULLs or Duplicates in Primary Key
+-- Expectation: No Results
+
+SELECT
+    cid
+FROM silver.erp_loc_a101
+WHERE cid is NULL;
+
+SELECT
+    cid,
+    count(*) as cnt_doubles
+FROM silver.erp_loc_a101
+GROUP BY cid
+HAVING count(*) > 1
+ORDER BY cnt_doubles;
+
+-- Identify prefix of CID to check for consistency
+SELECT
+    substring(cid from '^[a-zA-Z-]+') as prefix,
+    count(*) as cnt,
+    min(cid) as exemple_cid
+FROM silver.erp_loc_a101
+GROUP BY 1
+ORDER BY 2;
+
+-- Data Standardization & Consistency
+SELECT DISTINCT
+    cntry
+FROM silver.erp_loc_a101;
+
