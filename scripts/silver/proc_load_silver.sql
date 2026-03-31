@@ -171,3 +171,37 @@ SELECT
     END AS sls_price
 FROM crm_sales_values;
 
+
+-- Truncating Table: silver.erp_cust_az12
+TRUNCATE TABLE silver.erp_cust_az12;
+
+-- Inserting Data Into: silver.erp_cust_az12
+INSERT INTO silver.erp_cust_az12(
+    cid,
+    bdate,
+    gen
+)
+WITH erp_cust_az12_values AS (
+    SELECT
+        TRIM(cid) AS cid,
+        TRIM(bdate) AS bdate,
+        TRIM(gen) AS gen
+    FROM bronze.erp_cust_az12
+                             )
+SELECT
+    REGEXP_REPLACE(cid, '^NAS', '', 'i') AS cid,
+
+    CASE
+        WHEN bdate ~ '^\d{4}-\d{2}-\d{2}'
+            AND TO_DATE(bdate, 'YYYY-MM-DD') < CURRENT_DATE
+            AND TO_DATE(bdate, 'YYYY-MM-DD') > '1900-01-01'
+            THEN TO_DATE(bdate, 'YYYY-MM-DD')
+    END AS bdate,
+
+    CASE
+        WHEN UPPER(gen) IN ('F', 'FEMALE') THEN 'Female'
+        WHEN UPPER(gen) IN ('M', 'MALE') THEN 'Male'
+        ELSE 'n/a'
+    END AS gen
+FROM erp_cust_az12_values;
+
