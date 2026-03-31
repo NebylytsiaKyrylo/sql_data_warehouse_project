@@ -191,11 +191,64 @@ SELECT
     sls_quantity,
     sls_price
 FROM silver.crm_sales_details
-WHERE sls_sales is NULL
-or sls_quantity is NULL
-or sls_price is NULL
-or sls_sales <= 0
-or sls_quantity <= 0
-or sls_price <=0
-or sls_sales != sls_quantity * sls_price
-or sls_price != sls_sales / sls_quantity;
+WHERE
+     sls_sales IS NULL
+  OR sls_quantity IS NULL
+  OR sls_price IS NULL
+  OR sls_sales <= 0
+  OR sls_quantity <= 0
+  OR sls_price <= 0
+  OR sls_sales != sls_quantity * sls_price
+  OR sls_price != sls_sales / sls_quantity;
+
+-- ====================================================================
+-- Checking 'silver.erp_cust_az12'
+-- ====================================================================
+
+SELECT
+    *
+FROM silver.erp_cust_az12
+LIMIT 10;
+
+-- Check for NULLs or Duplicates in Primary Key
+-- Expectation: No Results
+SELECT
+    *
+FROM silver.erp_cust_az12
+WHERE
+    cid IS NULL;
+
+-- Check for Duplicates in CID
+-- Expectation: No Results
+SELECT
+    cid,
+    COUNT(*)
+FROM silver.erp_cust_az12
+GROUP BY cid
+HAVING COUNT(*) > 1;
+
+-- Identify prefix of CID to check for consistency
+SELECT DISTINCT
+    SUBSTRING(cid FROM '^[A-Za-z]+') AS prefixe,
+    COUNT(*) AS nombre_de_lignes,
+    MIN(cid) AS exemple_complet
+FROM silver.erp_cust_az12
+GROUP BY
+    1
+ORDER BY
+    2 DESC;
+
+-- Check for Invalid bdates
+-- Expectation: No Results
+SELECT
+    bdate
+FROM silver.erp_cust_az12
+WHERE
+     bdate < '1900-01-01'
+  OR bdate > CURRENT_DATE;
+
+-- Data Standardization & Consistency
+SELECT DISTINCT
+    gen
+FROM silver.erp_cust_az12;
+
