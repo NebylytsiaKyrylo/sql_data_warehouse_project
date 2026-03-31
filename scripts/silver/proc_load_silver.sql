@@ -205,3 +205,26 @@ SELECT
     END AS gen
 FROM erp_cust_az12_values;
 
+-- Truncating Table: silver.erp_loc_a101
+TRUNCATE TABLE silver.erp_loc_a101;
+
+-- Inserting Data Into: silver.erp_loc_a101
+INSERT INTO silver.erp_loc_a101(
+    cid,
+    cntry
+)
+WITH erp_loc_a101_values AS (
+    SELECT
+        TRIM(cid) AS cid,
+        TRIM(cntry) AS cntry
+    FROM bronze.erp_loc_a101
+                            )
+SELECT
+    REPLACE(cid, '-', '') AS cid,
+    CASE
+        WHEN cntry IS NULL OR cntry = '' THEN 'n/a'
+        WHEN UPPER(cntry) IN ('US', 'USA') THEN 'United States'
+        WHEN UPPER(cntry) = 'DE' THEN 'Germany'
+        ELSE cntry
+    END AS cntry
+FROM erp_loc_a101_values;
