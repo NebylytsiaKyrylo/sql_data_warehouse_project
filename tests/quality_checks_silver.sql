@@ -133,7 +133,8 @@ WHERE
 
 SELECT
     *
-FROM silver.crm_sales_details;
+FROM silver.crm_sales_details
+LIMIT 10;
 
 -- Check for NULLs or Duplicates in Primary Key
 -- Expectation: No Results
@@ -305,7 +306,8 @@ FROM silver.erp_loc_a101;
 
 SELECT
     *
-FROM silver.erp_px_cat_g1v2;
+FROM silver.erp_px_cat_g1v2
+LIMIT 10;
 
 -- Check for NULLs or Duplicates in Primary Key
 -- Expectation: No Results
