@@ -38,6 +38,9 @@
 ## 6. Build Gold Layer (Business Ready)
 - [ ] Analyzing: Explore Business Objects and Aggregation Needs
 - [ ] Coding: Data Integration and Dimensional Modeling (Star Schema)
+  - [ ] Build the business object
+  - [ ] Choose type: dimension vs fact
+  - [ ] Rename to friendly names
 - [ ] Quality: Validating Business Logic and Data Consistency
 - [ ] Document: Draw Data Model of Star Schema
 - [ ] Document: Create Data Catalog for End-Users
