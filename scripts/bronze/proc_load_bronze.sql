@@ -3,19 +3,20 @@
 Stored Procedure: bronze.load_table
 Description: Automates the TRUNCATE -> COPY -> LOG cycle for a specific table.
 Script Purpose:
-    This stored procedure loads data into the 'bronze' schema from external CSV files.
+    This helper stored procedure loads data into a specific table in the 'bronze'
+    schema from an external CSV file.
     It performs the following actions:
-    - Truncates the bronze tables before loading data to ensure idempotency.
+    - Truncates the target table to ensure idempotency.
     - Uses the `COPY` command to rapidly load data from CSV files.
-    - Tracks execution time using clock_timestamp() for performance monitoring.
+    - Tracks execution time for performance monitoring.
 
 Parameters:
     - p_table_name : Target table name (e.g., 'crm_cust_info')
     - p_file_path  : Absolute path to the source CSV file
     - p_columns    : Comma-separated list of target columns
 
-Usage exemple:
-CALL bronze.load_bronze();
+Usage Example:
+    CALL bronze.load_table('crm_cust_info', '/path/to/file.csv', 'col1, col2');
 ===============================================================================
 */
 
@@ -46,7 +47,7 @@ BEGIN
 
     v_end_time := CLOCK_TIMESTAMP();
     v_duration := EXTRACT(EPOCH FROM (v_end_time - v_start_time));
-    RAISE NOTICE '>> Load Duration: % seconds', v_duration;
+    RAISE NOTICE '>> Load Duration of %: % seconds', p_table_name, v_duration;
     RAISE NOTICE '>> -------------';
 END;
 $$;
@@ -56,6 +57,8 @@ $$;
 ===============================================================================
 Stored Procedure: bronze.load_bronze
 Description: Orchestrates the full loading process for the Bronze Layer.
+Usage Example:
+    CALL bronze.load_bronze();
 ===============================================================================
 */
 
