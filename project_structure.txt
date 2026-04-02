@@ -1,0 +1,44 @@
+.
+├── LICENSE
+├── datasets
+│   ├── source_crm
+│   │   ├── cust_info.csv
+│   │   ├── prd_info.csv
+│   │   └── sales_details.csv
+│   └── source_erp
+│       ├── CUST_AZ12.csv
+│       ├── LOC_A101.csv
+│       └── PX_CAT_G1V2.csv
+├── docker-compose.yml
+├── docs
+│   ├── data_architecture.drawio
+│   ├── data_architecture.png
+│   ├── data_catalog.md
+│   ├── data_flow.drawio
+│   ├── data_flow.png
+│   ├── data_integration.drawio
+│   ├── data_integration.png
+│   ├── data_model.drawio
+│   ├── data_model.png
+│   ├── medallion_architecture.md
+│   ├── naming_conventions.md
+│   ├── project_plan_sql_DWH.md
+│   └── requirements.md
+├── project_structure.txt
+├── scripts
+│   ├── bronze
+│   │   ├── ddl_bronze.sql
+│   │   └── proc_load_bronze.sql
+│   ├── gold
+│   │   ├── ddl_gold.sql
+│   │   └── proc_load_gold.sql
+│   ├── init
+│   │   └── init_database.sql
+│   └── silver
+│       ├── ddl_silver.sql
+│       └── proc_load_silver.sql
+└── tests
+    ├── quality_checks_gold.sql
+    └── quality_checks_silver.sql
+
+11 directories, 31 files
