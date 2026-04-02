@@ -16,8 +16,6 @@ decision-making.
 * **Documentation**: Provide clear documentation of the data model to support both business stakeholders and analytics
   teams.
 
----
-
 ## 2. What I Built
 
 I implemented a Medallion-style warehouse with three layers:
@@ -32,8 +30,6 @@ I also added:
 - data quality checks for Silver and Gold
 - architecture, data flow, integration, and model diagrams
 - a data catalog for business-facing tables
-
----
 
 ## 3. Project Plan I Followed
 
@@ -54,8 +50,6 @@ Execution phases:
 9. Operational Run Order (Quick Checklist)
 
 ## 4. Architecture and Why I Run It in Docker
-
----
 
 I run PostgreSQL in a Docker container for reproducibility, portability, and isolation.
 
@@ -81,7 +75,6 @@ Initialization file:
 
 - [Open medallion_architecture.md](docs/medallion_architecture.md)
 
----
 ## 5. End-to-End Flow I Implemented
 
 ![Data Flow](https://github.com/NebylytsiaKyrylo/sql_data_warehouse_project/blob/master/docs/data_flow.png?raw=true)
@@ -109,12 +102,10 @@ What I do in `proc_load_bronze.sql`:
 - orchestrate full CRM + ERP ingestion via `bronze.load_bronze()`
 
 
----
 Once the Bronze layer was completed, I was able to design the **Data Integration** schema to visualize how the different sources (CRM & ERP) connect before moving to the Silver layer.
 
 
 ![Data Integration](https://github.com/NebylytsiaKyrylo/sql_data_warehouse_project/blob/master/docs/data_integration.png?raw=true)
-
 
 
 ### 5.2 From Bronze to Silver (Cleaning and Standardization)
@@ -144,7 +135,6 @@ What I implemented in `silver.load_silver()`:
 - apply date sanity checks for birthdates
 - log per-table and total runtime
 
----
 
 ### 5.3 From Silver to Gold (Star Schema)
 
@@ -185,7 +175,6 @@ After building the Gold layer, I created a **comprehensive data catalog** to doc
 
 This ensures **single source of truth** for data semantics, reducing confusion and supporting self-service analytics.
 
----
 
 ## 6. Project Structure (with Role of Each Folder)
 
@@ -230,7 +219,7 @@ This ensures **single source of truth** for data semantics, reducing confusion a
 |-- .gitignore                   # Specifies files to exclude from version control
 `-- README.md                    # Main project documentation (this file)
 ```
----
+
 ## 7. How to Run the Project
 
 ### 7.1 Prerequisites
