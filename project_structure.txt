@@ -1,44 +1,39 @@
 .
-├── LICENSE
-├── datasets
-│   ├── source_crm
-│   │   ├── cust_info.csv
-│   │   ├── prd_info.csv
-│   │   └── sales_details.csv
-│   └── source_erp
-│       ├── CUST_AZ12.csv
-│       ├── LOC_A101.csv
-│       └── PX_CAT_G1V2.csv
-├── docker-compose.yml
-├── docs
-│   ├── data_architecture.drawio
-│   ├── data_architecture.png
-│   ├── data_catalog.md
-│   ├── data_flow.drawio
-│   ├── data_flow.png
-│   ├── data_integration.drawio
-│   ├── data_integration.png
-│   ├── data_model.drawio
-│   ├── data_model.png
-│   ├── medallion_architecture.md
-│   ├── naming_conventions.md
-│   ├── project_plan_sql_DWH.md
-│   └── requirements.md
-├── project_structure.txt
-├── scripts
-│   ├── bronze
-│   │   ├── ddl_bronze.sql
-│   │   └── proc_load_bronze.sql
-│   ├── gold
-│   │   ├── ddl_gold.sql
-│   │   └── proc_load_gold.sql
-│   ├── init
-│   │   └── init_database.sql
-│   └── silver
-│       ├── ddl_silver.sql
-│       └── proc_load_silver.sql
-└── tests
-    ├── quality_checks_gold.sql
-    └── quality_checks_silver.sql
-
-11 directories, 31 files
+|-- datasets/                    # Source CSV files (CRM and ERP)
+|   |-- source_crm/              # Raw customer, product, and sales data from CRM system
+|   `-- source_erp/              # Raw customer location and product category data from ERP
+|
+|-- docs/                        # Architecture diagrams and business documentation
+|   |-- data_architecture.png    # High-level 3-layer medallion architecture diagram
+|   |-- data_flow.png            # End-to-end data movement from sources to Gold
+|   |-- data_integration.png     # Technical integration of CRM + ERP data sources
+|   |-- data_model.png           # Final Star Schema (ERD with dimensions and facts)
+|   |-- data_catalog.md          # Business definitions and metadata for all tables
+|   |-- naming_conventions.md    # Standards for table, column, and procedure naming
+|   |-- requirements.md          # Project scope, objectives, and business requirements
+|   `-- project_plan_sql_DWH.md  # Detailed execution roadmap and timeline
+|
+|-- scripts/                     # SQL scripts organized by layer
+|   |-- init/                    # Database initialization (one-time setup)
+|   |   `-- init_database.sql    # Creates schemas (bronze, silver, gold)
+|   |
+|   |-- bronze/                  # Raw data ingestion layer
+|   |   |-- ddl_bronze.sql       # Creates 6 raw tables (3 CRM + 3 ERP)
+|   |   `-- proc_load_bronze.sql # Procedures to load CSV data into Bronze tables
+|   |
+|   |-- silver/                  # Data cleaning & standardization layer
+|   |   |-- ddl_silver.sql       # Creates 6 cleaned tables (with proper data types)
+|   |   `-- proc_load_silver.sql # Procedures to transform and deduplicate Bronze data
+|   |
+|   `-- gold/                    # Analytics-ready business layer
+|       |-- ddl_gold.sql         # Creates Star Schema (2 dimensions + 1 fact table)
+|       `-- proc_load_gold.sql   # Procedures to populate Gold tables with surrogate keys
+|
+|-- tests/                       # Data quality validation scripts
+|   |-- quality_checks_silver.sql # Validates Silver layer data integrity
+|   `-- quality_checks_gold.sql   # Validates Gold layer referential integrity
+|
+|-- docker-compose.yml           # Infrastructure definition (PostgreSQL container)
+|-- .env.example                 # Template for database credentials (copy to .env)
+|-- .gitignore                   # Specifies files to exclude from version control
+`-- README.md                    # Main project documentation (this file)
