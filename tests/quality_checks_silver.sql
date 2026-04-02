@@ -337,3 +337,10 @@ SELECT DISTINCT
 FROM silver.erp_px_cat_g1v2;
 
 
+-- Final Check: Data Volume (Bronze vs Silver)
+-- Expectation: Silver should have less or equal records due to deduplication/cleaning
+SELECT 'bronze.crm_cust_info' AS tbl, COUNT(*) AS cnt FROM bronze.crm_cust_info
+UNION ALL
+SELECT 'silver.crm_cust_info' AS tbl, COUNT(*) AS cnt FROM silver.crm_cust_info;
+
+
