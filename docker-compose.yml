@@ -1,4 +1,4 @@
-# docker-compose.yml (développement)
+# docker-compose.yml (Development Environment)
 services:
   postgresql_dwh:
     image: postgres:17
@@ -6,18 +6,19 @@ services:
     env_file:
       - .env
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      # Using variable expansion with default values for easier setup
+      POSTGRES_DB: ${POSTGRES_DB:-data_warehouse}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
     ports:
       - "5432:5432"
     volumes:
-      # Bind mounts pour développement
+      # Bind mounts for database initialization and development
       - ./scripts/init:/docker-entrypoint-initdb.d
       - ./scripts:/workspace/scripts
       - ./datasets:/workspace/datasets
       - ./tests:/workspace/tests
-      # Volume nommé pour les données persistent
+      # Named volume for persistent data storage
       - postgresql_data:/var/lib/postgresql/data
     restart: no
     healthcheck:
