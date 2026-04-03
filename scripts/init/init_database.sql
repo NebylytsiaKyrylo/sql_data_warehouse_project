@@ -13,6 +13,8 @@ WARNING:
     It will be created automatically by Docker during initialization.
 */
 
+\c data_warehouse
+
 -- Create Schemas (database is already created by PostgreSQL)
 CREATE SCHEMA IF NOT EXISTS bronze;
 CREATE SCHEMA IF NOT EXISTS silver;
