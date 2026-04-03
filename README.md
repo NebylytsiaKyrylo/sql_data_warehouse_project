@@ -283,37 +283,6 @@ If you prefer using a graphical interface like **DBeaver**, **pgAdmin**, or **SQ
     - `scripts/silver/proc_load_silver.sql` — Deploys data transformation logic
     - `scripts/gold/proc_load_gold.sql` — Deploys star schema population logic
 4. **Execute Pipeline** — Run the stored procedures from Step 3 below
-
-#### Option B: Automated via Terminal (Bash Script)
-
-**Step 1 — Create schemas and tables (DDL):**
-
-```bash
-# Create Bronze layer (raw ingestion tables)
-docker exec -it postgresql_dwh psql -U postgres -d data_warehouse -f /workspace/scripts/bronze/ddl_bronze.sql
-
-# Create Silver layer (cleaned & standardized tables)
-docker exec -it postgresql_dwh psql -U postgres -d data_warehouse -f /workspace/scripts/silver/ddl_silver.sql
-
-# Create Gold layer (business-ready star schema)
-docker exec -it postgresql_dwh psql -U postgres -d data_warehouse -f /workspace/scripts/gold/ddl_gold.sql
-```
-
-**Step 2 — Deploy stored procedures:**
-
-```bash
-# Deploy Bronze layer procedures (load raw CSV data)
-docker exec -it postgresql_dwh psql -U postgres -d data_warehouse -f /workspace/scripts/bronze/proc_load_bronze.sql
-
-# Deploy Silver layer procedures (clean & transform data)
-docker exec -it postgresql_dwh psql -U postgres -d data_warehouse -f /workspace/scripts/silver/proc_load_silver.sql
-
-# Deploy Gold layer procedures (build analytics tables)
-docker exec -it postgresql_dwh psql -U postgres -d data_warehouse -f /workspace/scripts/gold/proc_load_gold.sql
-```
-
-**Step 3 — Execute the full pipeline:**
-
 ```sql
 -- Load data from CSV files into Bronze layer (raw stage)
 CALL bronze.load_bronze();
@@ -323,6 +292,42 @@ CALL silver.load_silver();
 
 -- Build Gold layer star schema from Silver data (analytics stage)
 CALL gold.load_gold();
+```
+
+#### Option B: Automated via Terminal (Bash Script)
+
+**Step 1 — Create schemas and tables (DDL):**  
+- 1.1. Create Bronze layer (raw ingestion tables)
+```bash
+docker exec -it postgresql_dwh psql -U postgres -d data_warehouse -f /workspace/scripts/bronze/ddl_bronze.sql
+```
+- 1.2. Create Silver layer (cleaned & standardized tables)
+```bash
+docker exec -it postgresql_dwh psql -U postgres -d data_warehouse -f /workspace/scripts/silver/ddl_silver.sql
+```
+- 1.3. Create Gold layer (business-ready star schema)
+```bash
+docker exec -it postgresql_dwh psql -U postgres -d data_warehouse -f /workspace/scripts/gold/ddl_gold.sql
+```
+
+**Step 2 — Deploy stored procedures:**
+- 2.1. Deploy Bronze layer procedures (load raw CSV data)
+```bash
+docker exec -it postgresql_dwh psql -U postgres -d data_warehouse -f /workspace/scripts/bronze/proc_load_bronze.sql
+```
+- 2.2. Deploy Silver layer procedures (clean & transform data)
+```bash
+docker exec -it postgresql_dwh psql -U postgres -d data_warehouse -f /workspace/scripts/silver/proc_load_silver.sql
+```
+- 2.3. Deploy Gold layer procedures (build analytics tables)
+```bash
+docker exec -it postgresql_dwh psql -U postgres -d data_warehouse -f /workspace/scripts/gold/proc_load_gold.sql
+```
+
+**Step 3 — Execute the full pipeline:**
+
+```bash
+docker exec -it postgresql_dwh psql -U postgres -d data_warehouse -c "CALL bronze.load_bronze(); CALL silver.load_silver(); CALL gold.load_gold();"
 ```
 
 Each procedure logs per-table and total runtime on completion.
