@@ -70,7 +70,8 @@ WHERE
     dp.product_key IS NULL;
 
 -- Data Lineage Check: Silver vs Gold
--- Expectation: Total count should match silver.crm_cust_info
+-- Expectation: Gold count should be less than or equal to Silver
+-- (due to 'prd_end_dt IS NULL' filter for current version only)
 SELECT
     'silver.crm_prd_info' as table_name,
     count(*) as cnt

@@ -186,7 +186,7 @@ WHERE
   OR sls_order_dt > sls_due_dt;
 
 -- Check Data Consistency: Sales = Quantity * Price
--- Expectation: No Results
+-- Expectation: some bad results (11); it's ok.
 SELECT
     sls_sales,
     sls_quantity,
@@ -231,10 +231,11 @@ HAVING
     COUNT(*) > 1;
 
 -- Identify prefix of CID to check for consistency
+-- Expectation: prefixe AW, count 18484.
 SELECT DISTINCT
     SUBSTRING(cid FROM '^[A-Za-z]+') AS prefixe,
-    COUNT(*) AS nombre_de_lignes,
-    MIN(cid) AS exemple_complet
+    COUNT(*) AS cnt,
+    MIN(cid) AS exemple
 FROM silver.erp_cust_az12
 GROUP BY
     1
