@@ -22,7 +22,7 @@ services:
       - postgresql_dwh_volume:/var/lib/postgresql/data
     restart: no
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-data_warehouse}" ]
       interval: 10s
       timeout: 5s
       retries: 5
